@@ -120,8 +120,7 @@ def station_stats(df):
     # display most frequent combination of start station and end station trip
     combo = df.groupby(['Start Station', 'End Station']).size()
     pop_combo = combo[combo.values == combo.values.max()]
-    print("The most frequent combination of start station and end station:")
-    print(pop_combo, '\n')
+    print("The most frequent combination of start station and end station:\n{}\n".format(pop_combo))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -154,16 +153,14 @@ def user_stats(df):
     # display counts of user types
     try:
         user_types = df['User Type'].value_counts()
-        print("Here is the count by user type:")
-        print(user_types, '\n')
+        print("Here is the count by user type:\n{}\n".format(user_types))
     except KeyError:
         print("No Data for User Type.\n")
 
     # display counts of gender
     try:
         gender = df['Gender'].value_counts()
-        print("Here is the count by gender:")
-        print(gender, '\n')
+        print("Here is the count by gender:\n{}\n".format(gender))
     except KeyError:
         print("No Data for Gender.\n")
 
@@ -197,8 +194,7 @@ def raw_data(df):
             print("Reaching the end, printing the remaining lines of data:\n")
             print(df.iloc[counter:])
         # print raw data in the normal situation
-        print("Showing 5 lines of raw data:\n")
-        print(df.iloc[counter:(counter+5)])
+        print("Showing 5 lines of raw data:\n{}".format(df.iloc[counter:(counter+5)]))
         counter += 5
 
 
