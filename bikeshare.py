@@ -185,14 +185,18 @@ def user_stats(df):
 def raw_data(df):
     counter = 0
     while True:
+        # Get user input
         raw = input("Do you want to see 5 lines of raw data? enter 'yes' or 'no'\n").lower()
+        # Address for invalid input situation
         while raw not in ['yes', 'no']:
             raw = input("Invalid answer, please type 'yes' or 'no'\n").lower()
         if raw == 'no':
             break
+        # Address the situation where the database reaches the end of the line
         if (counter + 5) >= df.shape[0]:
             print("Reaching the end, printing the remaining lines of data:\n")
             print(df.iloc[counter:])
+        # Print raw data
         print("Showing 5 lines of raw data:\n")
         print(df.iloc[counter:(counter+5)])
         counter += 5
