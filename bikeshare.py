@@ -7,6 +7,7 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'washington': 'washington.csv' }
 months = ['january','february','march','april','may','june']
 days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+filter_type = ['month','day','both','none']
 
 def get_filters():
     """
@@ -24,7 +25,7 @@ def get_filters():
         city = input("Invalid input, please try again: ").lower()
     print("Looks like you want to check the database for {}. If not, please restart the program \n".format(city.title()))
 
-    filter_type = ['month','day','both','none']
+
     filter = input("Would you like to filter the data by month, day, or not at all? Type 'none' for no time filter: \n").lower()
     while filter not in filter_type:
         filter = input("Invalid input, please enter one of the following: 'month','day','both','none'\n").lower()
@@ -65,7 +66,6 @@ def load_data(city, month, day):
     df['day_of_week'] = df['Start Time'].dt.weekday_name
     if month != 'all':
         # use the index of the months list to get the corresponding int
-        months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
