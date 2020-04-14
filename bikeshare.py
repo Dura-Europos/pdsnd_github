@@ -34,7 +34,7 @@ def get_filters():
         month = input("Which month - January, February, March, April, May, or June?\n").lower()
         while month not in months:
             month = input("Invalid input, please try again: ").lower()
-    elif filter in ['day','none']:
+    else:
         month = 'all'
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
@@ -42,7 +42,7 @@ def get_filters():
         day = input("Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
         while day not in days:
             day = input("Invalid input, please try again: ")
-    elif filter in ['month','none']:
+    else:
         day = 'all'
 
     print('-'*40)
