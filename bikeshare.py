@@ -67,7 +67,6 @@ def load_data(city, month, day):
         # use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
-
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -136,11 +135,11 @@ def trip_duration_stats(df):
 
     # display total travel time
     total = df['Trip Duration'].sum()
-    print("Total travel time: ", total)
+    print("Total travel time: {}".format(total))
 
     # display mean travel time
     mean = df['Trip Duration'].mean()
-    print("Mean travel time: ", mean)
+    print("Mean travel time: {}".format(mean))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -173,9 +172,9 @@ def user_stats(df):
         year_min = df['Birth Year'].min()
         year_max = df['Birth Year'].max()
         year_mode = df['Birth Year'].mode()[0]
-        print("The earliest birth year is: ", year_min)
-        print("The most recent birth year is: ", year_max)
-        print("The most common year of birth is: ", year_mode)
+        print("The earliest birth year is: {}".format(year_min))
+        print("The most recent birth year is: {}".format(year_max))
+        print("The most common year of birth is: {}".format(year_mode))
     except KeyError:
         print("No Data for Birth Year.\n")
 
