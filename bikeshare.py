@@ -7,6 +7,7 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'washington': 'washington.csv' }
 months = ['january','february','march','april','may','june']
 days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+filter_type = ['month','day','both','none']
 
 def get_filters():
     """
@@ -24,7 +25,7 @@ def get_filters():
         city = input("Invalid input, please try again: ").lower()
     print("Looks like you want to check the database for {}. If not, please restart the program \n".format(city.title()))
 
-    filter_type = ['month','day','both','none']
+    # ask user for filter
     filter = input("Would you like to filter the data by month, day, or not at all? Type 'none' for no time filter: \n").lower()
     while filter not in filter_type:
         filter = input("Invalid input, please enter one of the following: 'month','day','both','none'\n").lower()
@@ -33,7 +34,7 @@ def get_filters():
         month = input("Which month - January, February, March, April, May, or June?\n").lower()
         while month not in months:
             month = input("Invalid input, please try again: ").lower()
-    elif filter in ['day','none']:
+    else:
         month = 'all'
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
@@ -41,7 +42,7 @@ def get_filters():
         day = input("Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").lower()
         while day not in days:
             day = input("Invalid input, please try again: ")
-    elif filter in ['month','none']:
+    else:
         day = 'all'
 
     print('-'*40)
@@ -65,9 +66,7 @@ def load_data(city, month, day):
     df['day_of_week'] = df['Start Time'].dt.weekday_name
     if month != 'all':
         # use the index of the months list to get the corresponding int
-        months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
-
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -121,8 +120,7 @@ def station_stats(df):
     # display most frequent combination of start station and end station trip
     combo = df.groupby(['Start Station', 'End Station']).size()
     pop_combo = combo[combo.values == combo.values.max()]
-    print("The most frequent combination of start station and end station:")
-    print(pop_combo, '\n')
+    print("The most frequent combination of start station and end station:\n{}\n".format(pop_combo))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -136,11 +134,11 @@ def trip_duration_stats(df):
 
     # display total travel time
     total = df['Trip Duration'].sum()
-    print("Total travel time: ", total)
+    print("Total travel time: {}".format(total))
 
     # display mean travel time
     mean = df['Trip Duration'].mean()
-    print("Mean travel time: ", mean)
+    print("Mean travel time: {}".format(mean))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -152,30 +150,28 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # Display counts of user types
+    # display counts of user types
     try:
         user_types = df['User Type'].value_counts()
-        print("Here is the count by user type:")
-        print(user_types, '\n')
+        print("Here is the count by user type:\n{}\n".format(user_types))
     except KeyError:
         print("No Data for User Type.\n")
 
-    # Display counts of gender
+    # display counts of gender
     try:
         gender = df['Gender'].value_counts()
-        print("Here is the count by gender:")
-        print(gender, '\n')
+        print("Here is the count by gender:\n{}\n".format(gender))
     except KeyError:
         print("No Data for Gender.\n")
 
-    # Display earliest, most recent, and most common year of birth
+    # display earliest, most recent, and most common year of birth
     try:
         year_min = df['Birth Year'].min()
         year_max = df['Birth Year'].max()
         year_mode = df['Birth Year'].mode()[0]
-        print("The earliest birth year is: ", year_min)
-        print("The most recent birth year is: ", year_max)
-        print("The most common year of birth is: ", year_mode)
+        print("The earliest birth year is: {}".format(year_min))
+        print("The most recent birth year is: {}".format(year_max))
+        print("The most common year of birth is: {}".format(year_mode))
     except KeyError:
         print("No Data for Birth Year.\n")
 
@@ -185,20 +181,20 @@ def user_stats(df):
 def raw_data(df):
     counter = 0
     while True:
-        # Get user input
+        # get user input
         raw = input("Do you want to see 5 lines of raw data? enter 'yes' or 'no'\n").lower()
-        # Address for invalid input situation
+        # address for invalid input situation
         while raw not in ['yes', 'no']:
             raw = input("Invalid answer, please type 'yes' or 'no'\n").lower()
+        # break the loop immediately if user wish no longer to see raw data
         if raw == 'no':
             break
-        # Address the situation where the database reaches the end of the line
+        # address the situation where the database reaches the end of the line
         if (counter + 5) >= df.shape[0]:
             print("Reaching the end, printing the remaining lines of data:\n")
             print(df.iloc[counter:])
-        # Print raw data
-        print("Showing 5 lines of raw data:\n")
-        print(df.iloc[counter:(counter+5)])
+        # print raw data in the normal situation
+        print("Showing 5 lines of raw data:\n{}".format(df.iloc[counter:(counter+5)]))
         counter += 5
 
 
