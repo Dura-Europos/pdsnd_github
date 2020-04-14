@@ -25,7 +25,7 @@ def get_filters():
         city = input("Invalid input, please try again: ").lower()
     print("Looks like you want to check the database for {}. If not, please restart the program \n".format(city.title()))
 
-
+    # ask user for filter
     filter = input("Would you like to filter the data by month, day, or not at all? Type 'none' for no time filter: \n").lower()
     while filter not in filter_type:
         filter = input("Invalid input, please enter one of the following: 'month','day','both','none'\n").lower()
@@ -151,7 +151,7 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # Display counts of user types
+    # display counts of user types
     try:
         user_types = df['User Type'].value_counts()
         print("Here is the count by user type:")
@@ -159,7 +159,7 @@ def user_stats(df):
     except KeyError:
         print("No Data for User Type.\n")
 
-    # Display counts of gender
+    # display counts of gender
     try:
         gender = df['Gender'].value_counts()
         print("Here is the count by gender:")
@@ -167,7 +167,7 @@ def user_stats(df):
     except KeyError:
         print("No Data for Gender.\n")
 
-    # Display earliest, most recent, and most common year of birth
+    # display earliest, most recent, and most common year of birth
     try:
         year_min = df['Birth Year'].min()
         year_max = df['Birth Year'].max()
@@ -184,18 +184,19 @@ def user_stats(df):
 def raw_data(df):
     counter = 0
     while True:
-        # Get user input
+        # get user input
         raw = input("Do you want to see 5 lines of raw data? enter 'yes' or 'no'\n").lower()
-        # Address for invalid input situation
+        # address for invalid input situation
         while raw not in ['yes', 'no']:
             raw = input("Invalid answer, please type 'yes' or 'no'\n").lower()
+        # break the loop immediately if user wish no longer to see raw data
         if raw == 'no':
             break
-        # Address the situation where the database reaches the end of the line
+        # address the situation where the database reaches the end of the line
         if (counter + 5) >= df.shape[0]:
             print("Reaching the end, printing the remaining lines of data:\n")
             print(df.iloc[counter:])
-        # Print raw data
+        # print raw data in the normal situation
         print("Showing 5 lines of raw data:\n")
         print(df.iloc[counter:(counter+5)])
         counter += 5
